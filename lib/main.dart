@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'app.dart';
+import 'core/api/cards_sheets_api.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,5 +14,6 @@ void main() async {
       storageBucket: 'antitest-1bc1f.appspot.com',
     ),
   );
+  await CardsSheetsAPI.init();
   runApp(const TestApp());
 }
