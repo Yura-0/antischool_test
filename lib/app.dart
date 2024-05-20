@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 
+import 'features/home/home_screen.dart';
+
 class TestApp extends StatelessWidget {
   const TestApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
+      theme: ThemeData.dark(),
+      home: const HomeScreen(),
     );
   }
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "641995186213",
+    "project_id": "antitest-1bc1f",
+    "storage_bucket": "antitest-1bc1f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641995186213:android:e6c00fe2c5f03b8691dfcc",
+        "android_client_info": {
+          "package_name": "com.example.antischool_test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtpk4rrr0V-jLMTjWhOMAaaOn8T6Blt2Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
