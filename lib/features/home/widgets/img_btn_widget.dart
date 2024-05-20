@@ -4,7 +4,7 @@ class ImgBtn extends StatelessWidget {
   final String img;
   final double width;
   final double height;
-  final void Function() onTap;
+  final void Function()? onTap;
   const ImgBtn({
     super.key,
     required this.img,
