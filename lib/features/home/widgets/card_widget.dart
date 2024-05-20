@@ -7,7 +7,11 @@ class CardWidget extends StatelessWidget {
   final String imgUrl;
   final String word;
   final String translation;
-  const CardWidget({super.key, required this.imgUrl, required this.word, required this.translation});
+  const CardWidget(
+      {super.key,
+      required this.imgUrl,
+      required this.word,
+      required this.translation});
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +29,25 @@ class CardWidget extends StatelessWidget {
           children: [
             SizedBox(
               width: Adaptive.w(50),
-              height: Adaptive.h(30),
+              height: Adaptive.h(45),
               child: Image.network(imgUrl),
-              ),
+            ),
             const SizedBox(height: 15),
-            Text(word),
+            Text(
+              word,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 15),
-            Text(translation),
+            Text(
+              translation,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),
