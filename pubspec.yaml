@@ -12,6 +12,7 @@ dependencies:
   firebase_storage: ^11.7.5
   flutter:
     sdk: flutter
+  get_it: ^7.7.0
   gsheets: ^0.5.0
   responsive_sizer: ^3.3.0+1
 

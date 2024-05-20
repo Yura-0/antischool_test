@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'app.dart';
 import 'core/api/cards_sheets_api.dart';
+import 'core/injector.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +20,7 @@ void main() async {
       storageBucket: 'antitest-1bc1f.appspot.com',
     ),
   );
-  await CardsSheetsAPI.init();
+  await setupLocator();
+  await locator<CardsSheetsAPI>().init();
   runApp(const TestApp());
 }
