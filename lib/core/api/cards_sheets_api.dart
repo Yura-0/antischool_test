@@ -31,4 +31,18 @@ abstract class CardsSheetsAPI {
       return spreadsheet.worksheetByTitle(title)!;
     }
   }
+
+  Future<List<Map<String, String?>>> fetchSheetData() async {
+  final gsheets = GSheets(_credentials);
+  final ss = await gsheets.spreadsheet(_spreadsheetId);
+  final sheet = ss.worksheetByTitle('Sheet1');
+
+  final data = await sheet!.values.map.allRows();
+  return data!.map((row) => {
+    'card_id': row['Card ID'],
+    'word': row['Word'],
+    'translation': row['Translation'],
+    'image_id': row['Image ID'],
+  },).toList();
+}
 }
