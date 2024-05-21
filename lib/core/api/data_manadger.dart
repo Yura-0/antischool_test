@@ -7,8 +7,13 @@ class DataManager {
   Future<List<Map<String, String>>> fetchData() async {
     final data = await locator<CardsSheetsAPI>().fetchSheetData();
     for (var row in data) {
-      final imageUrl = await locator<FirestoreAPI>().getImageUrl(row['image_id']!);
-      row['image_url'] = imageUrl;
+      try {
+        final imageUrl = await locator<FirestoreAPI>().getImageUrl(row['image_id'] ?? '');
+        row['image_url'] = imageUrl;
+      } catch (e) {
+        row['image_url'] = '';
+      }
+      
     }
     return data;
   }

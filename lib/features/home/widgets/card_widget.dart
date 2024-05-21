@@ -27,11 +27,44 @@ class CardWidget extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            SizedBox(
-              width: Adaptive.w(50),
-              height: Adaptive.h(45),
-              child: Image.network(imgUrl),
-            ),
+            imgUrl.isNotEmpty
+                ? Image.network(
+                    imgUrl,
+                    width: Adaptive.w(50),
+                    height: Adaptive.h(45),
+                    errorBuilder: (context, error, stackTrace) {
+                      return SizedBox(
+                        width: Adaptive.w(50),
+                        height: Adaptive.h(45),
+                        child: const Center(
+                          child: Text(
+                            "Check your internet connection!",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  )
+                : SizedBox(
+                    width: Adaptive.w(50),
+                    height: Adaptive.h(45),
+                    child: const Center(
+                      child: Text(
+                        "Check your internet connection!",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
             const SizedBox(height: 15),
             Text(
               word,
