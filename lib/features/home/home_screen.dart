@@ -32,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  // Load cards from API
   Future<void> _loadCards() async {
     try {
       final cardsData = await locator<DataManager>().fetchData();
@@ -54,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  // Show error message if API call fails
   void _showErrorMessage() {
     showDialog(
       context: context,
@@ -81,6 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // Change order of cards based on Firebase Remote Config
   Future<void> _changeOrder() async {
     try {
       final remoteConfig = FirebaseRemoteConfig.instance;

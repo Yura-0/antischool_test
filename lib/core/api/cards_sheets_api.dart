@@ -4,7 +4,7 @@ import '../../secret_consts.dart';
 import '../model/cards_fields.dart';
 import '../model/i_data_storage.dart';
 
-class CardsSheetsAPI implements IDataStorage{
+class CardsSheetsAPI implements IDataStorage {
   static const String _spreadsheetId = SecConsts.spreadsheetId;
   static const String _credentials = SecConsts.credentials;
   static final _gsheets = GSheets(_credentials);

@@ -1,3 +1,4 @@
+// Model for cards fields
 class CardsFields {
   static const String id = 'Card ID';
   static const String word = 'Word';

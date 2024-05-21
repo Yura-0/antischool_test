@@ -1,4 +1,3 @@
-
 import '../model/i_data_storage.dart';
 import '../model/i_image_storage.dart';
 
@@ -17,9 +16,7 @@ class DataManager {
       } catch (e) {
         row['image_url'] = '';
       }
-      
     }
     return data;
   }
 }
-

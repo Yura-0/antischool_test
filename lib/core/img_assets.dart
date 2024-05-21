@@ -1,3 +1,4 @@
+// Assets images for use in the app
 abstract class ImgAssets {
   static const String cardBack = 'assets/images/ui_block.png';
   static const String backBtn = 'assets/images/ui_button_back.png';
