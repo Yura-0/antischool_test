@@ -21,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late List<Map<String, String>> _cards = [];
   final PageController _pageController = PageController();
   int _currentIndex = 0;
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -36,14 +37,38 @@ class _HomeScreenState extends State<HomeScreen> {
       final cardsData = await locator<DataManager>().fetchData();
       final remoteConfig = FirebaseRemoteConfig.instance;
       await remoteConfig.fetchAndActivate();
-      final cardsOrder =
-          remoteConfig.getString('cards_order').trim().split(',');
+      final cardsOrder = remoteConfig.getString('cards_order').trim().split(',');
 
       _cards = sortCards(cardsData, cardsOrder);
-      setState(() {});
+      setState(() {
+        _isLoading = false; 
+      });
     } catch (e) {
       print('Error loading cards: $e');
+      setState(() {
+        _isLoading = false; 
+      });
+      
+      _showErrorMessage();
     }
+  }
+
+  void _showErrorMessage() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Center(child: const Text('Error')),
+          content: const Text('Check your internet connection and restart app.', textAlign: TextAlign.center,),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<void> _changeOrder () async {
