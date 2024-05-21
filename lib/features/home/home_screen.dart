@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _loadCards();
     FirebaseRemoteConfig.instance.onConfigUpdated.listen((event) {
-      _loadCards();
+      _changeOrder();
     });
   }
 
@@ -36,14 +36,49 @@ class _HomeScreenState extends State<HomeScreen> {
       final cardsData = await locator<DataManager>().fetchData();
       final remoteConfig = FirebaseRemoteConfig.instance;
       await remoteConfig.fetchAndActivate();
-      final cardsOrder = remoteConfig.getString('cards_order').trim().split(',');
+      final cardsOrder =
+          remoteConfig.getString('cards_order').trim().split(',');
 
-      _cards = cardsData.where((card) => cardsOrder.contains(card['card_id'])).toList();
+      _cards = sortCards(cardsData, cardsOrder);
       setState(() {});
     } catch (e) {
       print('Error loading cards: $e');
     }
   }
+
+  Future<void> _changeOrder () async {
+    try {
+      final remoteConfig = FirebaseRemoteConfig.instance;
+    await remoteConfig.fetchAndActivate();
+    final cardsOrder =
+          remoteConfig.getString('cards_order').trim().split(',');
+    _cards = sortCards(_cards, cardsOrder);
+    setState(() {});
+    } catch (e) {
+      print('Error loading cards: $e');
+    }
+  }
+
+  List<Map<String, String>> sortCards(List<Map<String, String>> cardsData, List<String> cardsOrder) {
+ 
+  List<Map<String, String>> sortedCards = [];
+  if (cardsOrder.length == cardsData.length) {
+    for (String cardId in cardsOrder) {
+    for (var card in cardsData) {
+      if (card['card_id'] == cardId) {
+        sortedCards.add(card);
+        break;  
+      }
+    }
+  }
+  }
+  else {
+    sortedCards = cardsData;
+  }
+  
+
+  return sortedCards;
+}
 
   void _goToNextCard() {
     if (_currentIndex < _cards.length - 1) {
@@ -74,7 +109,8 @@ class _HomeScreenState extends State<HomeScreen> {
           : Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: Adaptive.h(10), bottom: Adaptive.h(15)),
+                  padding: EdgeInsets.only(
+                      top: Adaptive.h(10), bottom: Adaptive.h(15)),
                   child: SizedBox(
                     width: Adaptive.w(80),
                     height: Adaptive.h(62),
@@ -107,7 +143,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       img: ImgAssets.nextBtn,
                       width: Adaptive.w(35),
                       height: Adaptive.h(6),
-                      onTap: _currentIndex < _cards.length - 1 ? _goToNextCard : null,
+                      onTap: _currentIndex < _cards.length - 1
+                          ? _goToNextCard
+                          : null,
                     ),
                   ],
                 ),
