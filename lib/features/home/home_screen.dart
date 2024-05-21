@@ -37,18 +37,19 @@ class _HomeScreenState extends State<HomeScreen> {
       final cardsData = await locator<DataManager>().fetchData();
       final remoteConfig = FirebaseRemoteConfig.instance;
       await remoteConfig.fetchAndActivate();
-      final cardsOrder = remoteConfig.getString('cards_order').trim().split(',');
+      final cardsOrder =
+          remoteConfig.getString('cards_order').trim().split(',');
 
       _cards = sortCards(cardsData, cardsOrder);
       setState(() {
-        _isLoading = false; 
+        _isLoading = false;
       });
     } catch (e) {
       print('Error loading cards: $e');
       setState(() {
-        _isLoading = false; 
+        _isLoading = false;
       });
-      
+
       _showErrorMessage();
     }
   }
@@ -58,11 +59,20 @@ class _HomeScreenState extends State<HomeScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Center(child: const Text('Error')),
-          content: const Text('Check your internet connection and restart app.', textAlign: TextAlign.center,),
+          title: const Center(child: Text('Error')),
+          content: const Text(
+            'Check your internet connection and restart app.',
+            textAlign: TextAlign.center,
+          ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.of(context).pop(),
+              onPressed: () {
+                setState(() {
+                  _isLoading = true;
+                });
+                _loadCards();
+                Navigator.of(context).pop();
+              },
               child: const Text('OK'),
             ),
           ],
@@ -71,39 +81,37 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Future<void> _changeOrder () async {
+  Future<void> _changeOrder() async {
     try {
       final remoteConfig = FirebaseRemoteConfig.instance;
-    await remoteConfig.fetchAndActivate();
-    final cardsOrder =
+      await remoteConfig.fetchAndActivate();
+      final cardsOrder =
           remoteConfig.getString('cards_order').trim().split(',');
-    _cards = sortCards(_cards, cardsOrder);
-    setState(() {});
+      _cards = sortCards(_cards, cardsOrder);
+      setState(() {});
     } catch (e) {
       print('Error loading cards: $e');
     }
   }
 
-  List<Map<String, String>> sortCards(List<Map<String, String>> cardsData, List<String> cardsOrder) {
- 
-  List<Map<String, String>> sortedCards = [];
-  if (cardsOrder.length == cardsData.length) {
-    for (String cardId in cardsOrder) {
-    for (var card in cardsData) {
-      if (card['card_id'] == cardId) {
-        sortedCards.add(card);
-        break;  
+  List<Map<String, String>> sortCards(
+      List<Map<String, String>> cardsData, List<String> cardsOrder) {
+    List<Map<String, String>> sortedCards = [];
+    if (cardsOrder.length == cardsData.length) {
+      for (String cardId in cardsOrder) {
+        for (var card in cardsData) {
+          if (card['card_id'] == cardId) {
+            sortedCards.add(card);
+            break;
+          }
+        }
       }
+    } else {
+      sortedCards = cardsData;
     }
-  }
-  }
-  else {
-    sortedCards = cardsData;
-  }
-  
 
-  return sortedCards;
-}
+    return sortedCards;
+  }
 
   void _goToNextCard() {
     if (_currentIndex < _cards.length - 1) {
