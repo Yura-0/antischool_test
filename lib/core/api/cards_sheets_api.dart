@@ -2,14 +2,16 @@ import 'package:gsheets/gsheets.dart';
 
 import '../../secret_consts.dart';
 import '../model/cards_fields.dart';
+import '../model/i_data_storage.dart';
 
-class CardsSheetsAPI {
+class CardsSheetsAPI implements IDataStorage{
   static const String _spreadsheetId = SecConsts.spreadsheetId;
   static const String _credentials = SecConsts.credentials;
   static final _gsheets = GSheets(_credentials);
 
   Worksheet? _cardsSheet;
 
+  @override
   Future<void> init() async {
     try {
       final spreadsheet = await _gsheets.spreadsheet(_spreadsheetId);
@@ -31,6 +33,7 @@ class CardsSheetsAPI {
     }
   }
 
+  @override
   Future<List<Map<String, String>>> fetchSheetData() async {
     final ss = await _gsheets.spreadsheet(_spreadsheetId);
     final sheet = ss.worksheetByTitle('Cards');

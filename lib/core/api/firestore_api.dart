@@ -1,6 +1,9 @@
 import 'package:firebase_storage/firebase_storage.dart';
 
-class FirestoreAPI {
+import '../model/i_image_storage.dart';
+
+class FirestoreAPI implements IImageStorage {
+  @override
   Future<String> getImageUrl(String imageId) async {
     try {
       final ref = FirebaseStorage.instance.ref().child('$imageId.png');
